@@ -52,7 +52,7 @@ try {
     throw new Error("Mobile page overflows.");
   await page.goto(`${base}/studio`);
   await page
-    .getByText("Sign in", { exact: false })
+    .getByText("Choose login provider", { exact: true })
     .first()
     .waitFor({ timeout: 30000 });
   console.log("Connected Studio sign-in: passed.");
