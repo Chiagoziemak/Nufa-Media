@@ -28,7 +28,11 @@ export interface Section {
   primaryHref?: string;
   secondaryHref?: string;
   buttonHref?: string;
-  formLabels?: Record<string, string>;
+  whatsappLabel?: string;
+  phoneButtonLabel?: string;
+  emailLabel?: string;
+  whatsappMessage?: string;
+  emailSubject?: string;
   primaryLabel?: string;
   secondaryLabel?: string;
   artTitle?: string;
@@ -40,8 +44,6 @@ export interface Section {
   values?: Item[];
   steps?: Item[];
   buttonLabel?: string;
-  services?: string[];
-  formNote?: string;
   labels?: string[];
   body?: PortableTextBlock[];
   image?: ImageValue;
@@ -53,9 +55,6 @@ export interface Settings {
   navigation: { _key: string; label: string; href: string }[];
   ctaLabel: string;
   ctaHref?: string;
-  briefReadyHeading?: string;
-  briefReadyDescription?: string;
-  briefUnavailableDescription?: string;
   footerTagline: string;
   footerNote: string;
   contactEmail: string;

@@ -204,31 +204,13 @@ const faqBlock = block("faqBlock", "FAQ", [
     ],
   }),
 ]);
-const contactBlock = block("contactBlock", "Contact / project brief", [
+const contactBlock = block("contactBlock", "Contact / direct links", [
   ...headings,
-  text("buttonLabel", "Form button"),
-  defineField({
-    name: "services",
-    title: "Services in dropdown",
-    type: "array",
-    of: [{ type: "string" }],
-  }),
-  text("formNote", "Form supporting note"),
-  defineField({
-    name: "formLabels",
-    title: "Form labels and placeholders",
-    type: "object",
-    fields: [
-      "nameLabel",
-      "namePlaceholder",
-      "emailLabel",
-      "emailPlaceholder",
-      "serviceLabel",
-      "servicePlaceholder",
-      "messageLabel",
-      "messagePlaceholder",
-    ].map((name) => text(name, name.replace(/([A-Z])/g, " $1"))),
-  }),
+  text("whatsappLabel", "WhatsApp button label"),
+  text("phoneButtonLabel", "Call button label"),
+  text("emailLabel", "Email button label"),
+  paragraph("whatsappMessage", "Prefilled WhatsApp message"),
+  text("emailSubject", "Email subject"),
 ]);
 const richTextBlock = block("richTextBlock", "Rich text", [
   ...headings,
@@ -317,9 +299,6 @@ const siteSettings = defineType({
     itemArray("navigation", "Navigation links", linkFields),
     text("ctaLabel", "Header / contact button"),
     text("ctaHref", "Contact button destination"),
-    text("briefReadyHeading", "Prepared brief heading"),
-    paragraph("briefReadyDescription", "Prepared brief message"),
-    paragraph("briefUnavailableDescription", "Contact not configured message"),
     paragraph("footerTagline", "Footer introduction"),
     text("footerNote", "Footer supporting text"),
     defineField({

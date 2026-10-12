@@ -37,7 +37,7 @@ The first hosted import requires your authenticated Sanity session. Creating the
 - Projects with images and accessible detail dialogs
 - Process steps
 - FAQ
-- Contact with editable form labels and placeholders
+- Centered contact section with editable WhatsApp, call, and email buttons
 - Rich text (headings, lists, links, and quotes)
 - Image / banner
 
@@ -47,7 +47,9 @@ Starter project examples are labelled **Studio concept**. Replace their artwork,
 
 ### Contact behaviour
 
-Contact coordinates start blank and are editable in Site settings. The form prepares a project brief; it does **not** silently send an email or store personal information. Once an email or WhatsApp number is published, visitors can open a prefilled email draft or WhatsApp conversation. Copy and download are available too. Until then, the form clearly says the brief has not been sent. A server-side form provider can be added later if automatic delivery is wanted.
+The contact section follows the approved demo: a centered heading and description above WhatsApp, telephone, and email buttons. There is no contact form. Edit the button labels, prefilled WhatsApp message, and email subject in **Home → Content blocks → Contact / direct links**. Edit the contact email, WhatsApp number, telephone number, and telephone display label in **Site settings**.
+
+Contact coordinates start blank. All three buttons remain visible; each becomes an active link when its valid contact details are published. Until then it is disabled. WhatsApp opens a prefilled chat, the call button opens the device's dialer, and email opens the visitor's email app. The website does not send messages or collect enquiry details.
 
 ### Configuration overrides
 
@@ -72,7 +74,7 @@ npm run studio:build           # standalone Studio build
 npm run format:check
 ```
 
-Browser tests use controlled CMS responses to verify published edits, block ordering, empty pages, custom pages, image replacement, contact channels, fallback handling, dialogs, and mobile navigation. The optional `node scripts/verify-live.mjs` checks the real read-only dataset and the connected Studio sign-in against the running dev server. Authenticated content import is a separate operation; these tests do not claim to have signed into your account.
+Browser tests use controlled CMS responses to verify published edits, block ordering, empty pages, custom pages, image replacement, direct contact links, fallback handling, dialogs, and mobile navigation. The optional `node scripts/verify-live.mjs` checks the real read-only dataset and the connected Studio sign-in against the running dev server. Authenticated content import is a separate operation; these tests do not claim to have signed into your account.
 
 ## Deploy the website
 

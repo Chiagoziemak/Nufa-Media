@@ -47,10 +47,7 @@
     "officeAddress": "",
     "officeHours": "",
     "responseNote": "",
-    "ctaHref": "#contact",
-    "briefReadyHeading": "Your brief is ready.",
-    "briefReadyDescription": "Choose how to share it with us below. Nothing has been sent yet.",
-    "briefUnavailableDescription": "Our contact channel is being finalised. Save your brief for now; it has not been sent."
+    "ctaHref": "#contact"
   },
   "page": {
     "_id": "homePage",
@@ -60,7 +57,7 @@
       "_type": "slug",
       "current": "home"
     },
-    "seoTitle": "Nufa Media \u2014 Ideas That Move Brands",
+    "seoTitle": "Nufa Media — Ideas That Move Brands",
     "seoDescription": "Nufa Media brings together advertising, media strategy, art direction, and digital experiences. Ideas that move brands.",
     "sections": [
       {
@@ -274,26 +271,12 @@
         "eyebrow": "START A PROJECT",
         "headline": "Got an idea?",
         "highlight": "Let's make people notice.",
-        "description": "Start with a conversation. Tell us about your next campaign, brand, or digital experience.",
-        "buttonLabel": "Prepare project brief",
-        "services": [
-          "Advertising",
-          "Media Strategy",
-          "Art Direction",
-          "Digital Product",
-          "An integrated project"
-        ],
-        "formNote": "Prepare a brief, then share it by email or WhatsApp once our contact details are published.",
-        "formLabels": {
-          "nameLabel": "Your name",
-          "namePlaceholder": "What should we call you?",
-          "emailLabel": "Email address",
-          "emailPlaceholder": "you@yourcompany.com",
-          "serviceLabel": "What can we help with?",
-          "servicePlaceholder": "Select a service",
-          "messageLabel": "A little about your project",
-          "messagePlaceholder": "The idea, the ambition, the big question\u2026"
-        }
+        "description": "Direct access to our senior strategy & creative partners. Fast response on WhatsApp, telephone, or email.",
+        "whatsappLabel": "WhatsApp us",
+        "phoneButtonLabel": "Call us",
+        "emailLabel": "Email",
+        "whatsappMessage": "Hi NUFA MEDIA, I'm interested in discussing a campaign for my brand.",
+        "emailSubject": "Project inquiry — NUFA MEDIA"
       }
     ]
   }

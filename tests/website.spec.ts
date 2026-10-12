@@ -13,17 +13,6 @@ async function mockCms(
     }),
   );
 }
-async function brief(page: Page) {
-  await page.getByLabel("Your name").fill("Ada Example");
-  await page.getByLabel("Email address").fill("ada@example.com");
-  await page
-    .getByLabel("What can we help with?")
-    .selectOption("Digital Product");
-  await page
-    .getByLabel("A little about your project")
-    .fill("We would like a website and a new visual identity.");
-  await page.getByRole("button", { name: "Prepare project brief" }).click();
-}
 test("unseeded public dataset renders the working starter website", async ({
   page,
 }) => {
@@ -84,28 +73,30 @@ test("FAQ opens and closes accessibly", async ({ page }) => {
   await faq.locator("summary").click();
   await expect(faq).not.toHaveAttribute("open", "");
 });
-test("missing contact coordinates produce a downloadable brief without claiming delivery", async ({
+test("contact matches the direct-link layout and leaves missing channels disabled", async ({
   page,
 }) => {
   await mockCms(page);
   await page.goto("/");
-  await brief(page);
-  await expect(
-    page.getByRole("heading", { name: "Your brief is ready." }),
-  ).toBeVisible();
-  await expect(
-    page.getByText("Our contact channel is being finalised.", { exact: false }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "Open email draft" }),
-  ).toHaveCount(0);
-  const download = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Download brief" }).click();
-  expect((await download).suggestedFilename()).toBe("nufa-project-brief.txt");
-  await page.getByRole("button", { name: "Edit your brief" }).click();
-  await expect(page.getByLabel("Your name")).toHaveValue("Ada Example");
+  const contact = page.locator("#contact");
+  await expect(contact.getByRole("heading")).toHaveText(
+    "Got an idea?Let's make people notice.",
+  );
+  await expect(contact).toContainText(
+    "Direct access to our senior strategy & creative partners.",
+  );
+  await expect(contact.locator("form, input, select, textarea")).toHaveCount(0);
+  for (const name of ["WhatsApp us", "Call us", "Email"]) {
+    await expect(
+      contact.getByRole("button", { name, exact: true }),
+    ).toBeVisible();
+    await expect(
+      contact.getByRole("button", { name, exact: true }),
+    ).toBeDisabled();
+  }
+  await expect(contact.getByRole("link")).toHaveCount(0);
 });
-test("published settings populate email, WhatsApp, and telephone with the brief", async ({
+test("published contact details open WhatsApp, phone, and email directly", async ({
   page,
 }) => {
   await mockCms(
@@ -115,28 +106,105 @@ test("published settings populate email, WhatsApp, and telephone with the brief"
       contactEmail: "hello@example.com",
       whatsappNumber: "2348012345678",
       phoneNumber: "+2348012345678",
-      phoneLabel: "Call the studio",
+      phoneLabel: "+234 (801) 234-5678",
     },
     defaults.page,
   );
   await page.goto("/");
+  const contact = page.locator("#contact");
+  const whatsapp = contact.getByRole("link", {
+    name: "WhatsApp us",
+    exact: true,
+  });
+  const url = new URL((await whatsapp.getAttribute("href"))!);
+  expect(url.origin).toBe("https://wa.me");
+  expect(url.pathname).toBe("/2348012345678");
+  expect(url.searchParams.get("text")).toBe(
+    "Hi NUFA MEDIA, I'm interested in discussing a campaign for my brand.",
+  );
+  await expect(whatsapp).toHaveAttribute("target", "_blank");
+  await expect(whatsapp).toHaveAttribute("rel", "noopener noreferrer");
   await expect(
-    page.getByRole("link", { name: "Call the studio" }),
+    contact.getByRole("link", {
+      name: "Call us (+234 (801) 234-5678)",
+      exact: true,
+    }),
   ).toHaveAttribute("href", "tel:+2348012345678");
-  await brief(page);
-  const email = await page
-    .getByRole("link", { name: "Open email draft" })
-    .getAttribute("href");
-  expect(email).toContain("mailto:hello@example.com?");
-  expect(decodeURIComponent(email!)).toContain("Ada Example");
-  const whatsapp = await page
-    .getByRole("link", { name: "Open WhatsApp" })
-    .getAttribute("href");
-  expect(whatsapp).toContain("https://wa.me/2348012345678?text=");
-  expect(decodeURIComponent(whatsapp!)).toContain("new visual identity");
+  const email = contact.getByRole("link", { name: "Email", exact: true });
+  const emailUrl = new URL((await email.getAttribute("href"))!);
+  expect(emailUrl.protocol).toBe("mailto:");
+  expect(emailUrl.pathname).toBe("hello@example.com");
+  expect(emailUrl.searchParams.get("subject")).toBe(
+    "Project inquiry — NUFA MEDIA",
+  );
+  await expect(contact.locator("form, input, select, textarea")).toHaveCount(0);
+});
+test("Sanity controls contact copy and button labels, including blocks with old form data", async ({
+  page,
+}) => {
+  const oldContact = defaults.page.sections.find(
+    (section) => section._type === "contactBlock",
+  )!;
+  await mockCms(
+    page,
+    {
+      ...defaults.settings,
+      contactEmail: "projects@example.com",
+      whatsappNumber: "2348098765432",
+      phoneNumber: "+2348098765432",
+      phoneLabel: "Our studio",
+    },
+    {
+      ...defaults.page,
+      sections: [
+        {
+          ...oldContact,
+          headline: "Have a campaign in mind?",
+          highlight: "Let's talk.",
+          description: "A direct connection to our creative team.",
+          whatsappLabel: "Message our team",
+          phoneButtonLabel: "Speak to us",
+          emailLabel: "Write to us",
+          whatsappMessage: "Let's discuss a new campaign & its launch.",
+          emailSubject: "Campaign planning & creative",
+          formLabels: { nameLabel: "Obsolete form field" },
+          buttonLabel: "Obsolete submit button",
+        },
+      ],
+    },
+  );
+  await page.goto("/");
+  const contact = page.locator("#contact");
+  await expect(contact.getByRole("heading")).toHaveText(
+    "Have a campaign in mind?Let's talk.",
+  );
+  await expect(contact).toContainText(
+    "A direct connection to our creative team.",
+  );
   await expect(
-    page.getByText("Nothing has been sent yet.", { exact: false }),
-  ).toBeVisible();
+    contact.getByRole("link", {
+      name: "Speak to us (Our studio)",
+      exact: true,
+    }),
+  ).toHaveAttribute("href", "tel:+2348098765432");
+  const messageUrl = new URL(
+    (await contact
+      .getByRole("link", { name: "Message our team", exact: true })
+      .getAttribute("href"))!,
+  );
+  expect(messageUrl.searchParams.get("text")).toBe(
+    "Let's discuss a new campaign & its launch.",
+  );
+  const emailUrl = new URL(
+    (await contact
+      .getByRole("link", { name: "Write to us", exact: true })
+      .getAttribute("href"))!,
+  );
+  expect(emailUrl.searchParams.get("subject")).toBe(
+    "Campaign planning & creative",
+  );
+  await expect(contact.getByText("Obsolete form field")).toHaveCount(0);
+  await expect(contact.locator("form, input, select, textarea")).toHaveCount(0);
 });
 test("published blocks replace fallbacks, render in order, and support rich text", async ({
   page,

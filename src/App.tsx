@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -7,9 +7,9 @@ import {
   Minus,
   Menu,
   X,
-  Check,
-  Copy,
-  Download,
+  MessageSquare,
+  Phone,
+  Mail,
   LoaderCircle,
 } from "lucide-react";
 import { PortableText } from "@portabletext/react";
@@ -21,7 +21,7 @@ import "@fontsource/hanken-grotesk/latin-400.css";
 import "@fontsource/hanken-grotesk/latin-500.css";
 import "@fontsource/hanken-grotesk/latin-600.css";
 import { fallbackContent, getContent, safeUrl, cmsConfigured } from "./content";
-import { Artwork, Star } from "./Artwork";
+import { Artwork } from "./Artwork";
 import type { Section, Settings, Item } from "./types";
 
 function Heading({
@@ -110,201 +110,109 @@ function Contact({
   section: Section;
   settings: Settings;
 }) {
-  const [result, setResult] = useState("");
-  const [draft, setDraft] = useState<Record<string, string>>({});
-  const [copied, setCopied] = useState(false);
-  const [copyError, setCopyError] = useState(false);
-  const [emailOpened, setEmailOpened] = useState(false);
-  const resultRef = useRef<HTMLDivElement>(null);
   const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(settings.contactEmail || "")
     ? settings.contactEmail
     : "";
-  const labels = section.formLabels || {};
-  const phone = (settings.whatsappNumber || "").replace(/[+\s()-]/g, "");
-  const whatsapp = /^[1-9]\d{6,14}$/.test(phone) ? phone : "";
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    setDraft(
-      Object.fromEntries(
-        Array.from(data.entries()).map(([key, value]) => [key, String(value)]),
-      ),
-    );
-    const brief = `Project enquiry for ${settings.brandName}\n\nName: ${data.get("name")}\nEmail: ${data.get("email")}\nInterested in: ${data.get("service")}\n\n${data.get("message")}`;
-    setResult(brief);
-    setCopied(false);
-    setCopyError(false);
-    setEmailOpened(false);
-  }
-  useEffect(() => {
-    if (result) resultRef.current?.focus();
-  }, [result]);
-  function download() {
-    const url = URL.createObjectURL(
-      new Blob([result], { type: "text/plain;charset=utf-8" }),
-    );
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "nufa-project-brief.txt";
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
+  const whatsappDigits = (settings.whatsappNumber || "").replace(
+    /[+\s()-]/g,
+    "",
+  );
+  const whatsapp = /^[1-9]\d{6,14}$/.test(whatsappDigits) ? whatsappDigits : "";
+  const phoneDigits = (settings.phoneNumber || "").replace(/[\s()-]/g, "");
+  const phone = /^\+?[1-9]\d{6,14}$/.test(phoneDigits) ? phoneDigits : "";
+  const message =
+    section.whatsappMessage ||
+    `Hi ${settings.brandName}, I'm interested in discussing a campaign for my brand.`;
+  const subject =
+    section.emailSubject || `Project inquiry — ${settings.brandName}`;
+  const headingId = `contact-heading-${section._key}`;
+  const actions = [
+    {
+      key: "whatsapp",
+      label: section.whatsappLabel || "WhatsApp us",
+      href: whatsapp
+        ? `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`
+        : undefined,
+      Icon: MessageSquare,
+      primary: true,
+      external: true,
+      unavailable: "WhatsApp contact details are not available yet.",
+    },
+    {
+      key: "phone",
+      label: `${section.phoneButtonLabel || "Call us"}${phone ? ` (${settings.phoneLabel || settings.phoneNumber})` : ""}`,
+      href: phone ? `tel:${phone}` : undefined,
+      Icon: Phone,
+      primary: false,
+      external: false,
+      unavailable: "Telephone contact details are not available yet.",
+    },
+    {
+      key: "email",
+      label: section.emailLabel || "Email",
+      href: email
+        ? `mailto:${email}?subject=${encodeURIComponent(subject)}`
+        : undefined,
+      Icon: Mail,
+      primary: false,
+      external: false,
+      unavailable: "Email contact details are not available yet.",
+    },
+  ];
   return (
-    <section id={section.anchor} className="contact-section section-wrap">
+    <section
+      id={section.anchor}
+      className="contact-section section-wrap"
+      aria-labelledby={headingId}
+    >
       <div className="contact-copy">
-        <p className="eyebrow">{section.eyebrow}</p>
-        <h2>
+        {section.eyebrow && <p className="eyebrow">{section.eyebrow}</p>}
+        <h2 id={headingId}>
           {section.headline}
-          <br />
-          <span>{section.highlight}</span>
-        </h2>
-        <p>{section.description}</p>
-        <Star className="contact-star" />
-        {settings.responseNote && <p>{settings.responseNote}</p>}
-        {settings.phoneNumber &&
-          /^\+?[1-9]\d{6,14}$/.test(settings.phoneNumber) && (
-            <a className="contact-email" href={`tel:${settings.phoneNumber}`}>
-              {settings.phoneLabel || settings.phoneNumber}
-              <ArrowUpRight size={20} />
-            </a>
+          {section.highlight && (
+            <>
+              <br />
+              <span>{section.highlight}</span>
+            </>
           )}
-        {settings.officeAddress && <p>{settings.officeAddress}</p>}
-        {settings.officeHours && <p>{settings.officeHours}</p>}
-        {email && (
-          <a className="contact-email" href={`mailto:${email}`}>
-            {email}
-            <ArrowUpRight size={20} />
-          </a>
+        </h2>
+        {section.description && (
+          <p className="contact-description">{section.description}</p>
         )}
-      </div>
-      <div className="contact-form-wrap">
-        {result ? (
-          <div ref={resultRef} className="brief-result" tabIndex={-1}>
-            <div className="success-icon">
-              <Check />
-            </div>
-            <h3>{settings.briefReadyHeading || "Your brief is ready."}</h3>
-            <p>
-              {email || whatsapp
-                ? settings.briefReadyDescription
-                : settings.briefUnavailableDescription}
-            </p>
-            {email && (
-              <a
-                className="button dark"
-                href={`mailto:${email}?subject=${encodeURIComponent("Let’s create something — project enquiry")}&body=${encodeURIComponent(result)}`}
-                onClick={() => setEmailOpened(true)}
-              >
-                Open email draft <ArrowUpRight size={18} />
-              </a>
-            )}
-            {whatsapp && (
-              <a
-                className="button dark"
-                href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(result)}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Open WhatsApp <ArrowUpRight size={18} />
-              </a>
-            )}
-            {emailOpened && (
-              <p className="form-note" role="status">
-                If your email app did not open, copy or download your brief and
-                email it to {email}.
-              </p>
-            )}
-            <div className="brief-actions">
-              <button
-                type="button"
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText(result);
-                    setCopied(true);
-                    setCopyError(false);
-                  } catch {
-                    setCopyError(true);
-                  }
-                }}
-              >
-                <Copy size={16} />
-                {copied ? "Copied" : "Copy brief"}
-              </button>
-              <button type="button" onClick={download}>
-                <Download size={16} />
-                Download brief
-              </button>
-            </div>
-            {copyError && (
-              <p role="status">
-                Clipboard access is unavailable. Use Download brief instead.
-              </p>
-            )}
-            <button className="text-button" onClick={() => setResult("")}>
-              Edit your brief <ArrowRight size={16} />
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={submit}>
-            <div className="form-row">
-              <label>
-                {labels.nameLabel || "Your name"}
-                <input
-                  name="name"
-                  defaultValue={draft.name}
-                  placeholder={labels.namePlaceholder}
-                  autoComplete="name"
-                  required
-                  maxLength={100}
-                />
-              </label>
-              <label>
-                {labels.emailLabel || "Email address"}
-                <input
-                  name="email"
-                  defaultValue={draft.email}
-                  type="email"
-                  placeholder={labels.emailPlaceholder}
-                  autoComplete="email"
-                  required
-                  maxLength={254}
-                />
-              </label>
-            </div>
-            <label>
-              {labels.serviceLabel || "What can we help with?"}
-              <select
-                name="service"
-                defaultValue={draft.service || ""}
-                required
-              >
-                <option value="" disabled>
-                  {labels.servicePlaceholder || "Select a service"}
-                </option>
-                {section.services?.map((service) => (
-                  <option key={service}>{service}</option>
-                ))}
-              </select>
-            </label>
-            <label>
-              {labels.messageLabel || "A little about your project"}
-              <textarea
-                name="message"
-                defaultValue={draft.message}
-                placeholder={labels.messagePlaceholder}
-                rows={4}
-                required
-                minLength={10}
-                maxLength={5000}
-              />
-            </label>
-            <button className="button dark" type="submit">
-              {section.buttonLabel}
-              <ArrowUpRight size={18} />
-            </button>
-            <p className="form-note">{section.formNote}</p>
-          </form>
-        )}
+        <div className="contact-actions">
+          {actions.map(
+            ({ key, label, href, Icon, primary, external, unavailable }) => {
+              const className = `button contact-button ${primary ? "lime" : "outlined"}`;
+              const content = (
+                <>
+                  <Icon size={23} strokeWidth={2} aria-hidden="true" />
+                  <span>{label}</span>
+                </>
+              );
+              return href ? (
+                <a
+                  key={key}
+                  className={className}
+                  href={href}
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "noopener noreferrer" : undefined}
+                >
+                  {content}
+                </a>
+              ) : (
+                <button
+                  key={key}
+                  type="button"
+                  className={className}
+                  disabled
+                  title={unavailable}
+                >
+                  {content}
+                </button>
+              );
+            },
+          )}
+        </div>
       </div>
     </section>
   );
