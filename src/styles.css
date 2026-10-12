@@ -184,8 +184,16 @@ section {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1);
   opacity: 0.8;
+}
+.hero.has-image-placement .hero-background {
+  width: 60%;
+  left: auto;
+  right: 0;
+}
+.hero.has-image-placement.image-left .hero-background {
+  left: 0;
+  right: auto;
 }
 .hero-overlay {
   position: absolute;
@@ -208,6 +216,15 @@ section {
   z-index: 1;
   width: 100%;
   max-width: 1000px;
+}
+.hero.image-left .hero-copy {
+  margin-left: auto;
+  max-width: min(1000px, 65%);
+}
+.hero.image-left .hero-overlay {
+  background:
+    linear-gradient(270deg, #010306ed 0%, #010306a8 45%, #01030610 90%),
+    linear-gradient(0deg, #010306bb, transparent 35%, #01030610);
 }
 .hero .eyebrow {
   display: inline-flex;
@@ -394,6 +411,48 @@ section {
   object-fit: cover;
   margin: 45px auto 0;
 }
+.image-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "copy media";
+  gap: 80px;
+  align-items: center;
+}
+.image-layout.image-left {
+  grid-template-areas: "media copy";
+}
+.image-layout > .image-copy {
+  grid-area: copy;
+  min-width: 0;
+}
+.image-layout > .image-media {
+  grid-area: media;
+  min-width: 0;
+}
+.about-intro.image-layout .about-copy {
+  margin: 0;
+  text-align: left;
+}
+.about-intro.image-layout .about-copy h2 {
+  font-size: clamp(32px, 4vw, 54px);
+  letter-spacing: -2.5px;
+}
+.about-intro.image-layout .about-copy > p:not(.eyebrow) {
+  font-size: 17px;
+}
+.about-intro.image-layout .about-image {
+  margin: 0;
+  width: 100%;
+  max-height: 650px;
+}
+.image-section .image-layout .section-heading {
+  display: block;
+  margin-bottom: 0;
+}
+.image-section .image-layout .section-description {
+  max-width: none;
+  margin-top: 20px;
+}
 .section-heading {
   display: flex;
   align-items: flex-end;
@@ -425,10 +484,14 @@ h2 span {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
-.services-layout {
+.services-layout.image-layout {
   display: grid;
   grid-template-columns: 1.25fr 1fr;
   gap: 80px;
+  align-items: stretch;
+}
+.services-layout.image-layout.image-left {
+  grid-template-columns: 1fr 1.25fr;
 }
 .services-grid {
   border-top: 1px solid var(--line);
@@ -492,7 +555,6 @@ h2 span {
   width: 100%;
   object-fit: cover;
   object-position: 75%;
-  filter: grayscale(1);
 }
 .services-visual > span {
   position: absolute;
@@ -547,7 +609,6 @@ h2 span {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1);
 }
 .project-open {
   position: absolute;
@@ -1036,7 +1097,8 @@ h2 span {
     font-size: 18px;
     max-width: 500px;
   }
-  .services-layout {
+  .image-layout,
+  .services-layout.image-layout {
     gap: 40px;
   }
   .service-card h3 {
@@ -1120,8 +1182,18 @@ h2 span {
     object-position: 65%;
     opacity: 0.55;
   }
+  .hero.has-image-placement .hero-background {
+    width: 100%;
+  }
   .hero-overlay {
     background: linear-gradient(90deg, #010306dc, #01030660);
+  }
+  .hero.image-left .hero-overlay {
+    background: linear-gradient(270deg, #010306dc, #01030660);
+  }
+  .hero.image-left .hero-copy {
+    margin-left: 0;
+    max-width: 100%;
   }
   .hero-actions {
     gap: 12px;
@@ -1189,9 +1261,20 @@ h2 span {
     max-width: 450px;
     font-size: 13px;
   }
-  .services-layout {
+  .image-layout,
+  .services-layout.image-layout,
+  .services-layout.image-layout.image-left {
     grid-template-columns: 1fr;
+    grid-template-areas: "copy" "media";
     gap: 35px;
+  }
+  .image-layout.image-left,
+  .services-layout.image-layout.image-left {
+    grid-template-areas: "media" "copy";
+  }
+  .about-intro.image-layout .about-copy h2 {
+    font-size: 39px;
+    letter-spacing: -2px;
   }
   .service-card {
     gap: 17px;

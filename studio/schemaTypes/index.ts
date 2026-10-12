@@ -9,7 +9,11 @@ const text = (name: string, title: string, required = false): FieldDefinition =>
   });
 const paragraph = (name: string, title: string): FieldDefinition =>
   defineField({ name, title, type: "text", rows: 3 });
-const image = (name = "image", title = "Image"): FieldDefinition =>
+const image = (
+  name = "image",
+  title = "Image",
+  defaultColorMode = "colour",
+): FieldDefinition =>
   defineField({
     name,
     title,
@@ -23,7 +27,40 @@ const image = (name = "image", title = "Image"): FieldDefinition =>
         description: "Describe the image for screen readers.",
         validation: (r) => r.required(),
       }),
+      defineField({
+        name: "colorMode",
+        title: "Image appearance",
+        type: "string",
+        options: {
+          layout: "radio",
+          list: [
+            { title: "Colour", value: "colour" },
+            { title: "Black and white", value: "blackAndWhite" },
+          ],
+        },
+        initialValue: defaultColorMode,
+        description: "Choose how this image appears on the website.",
+      }),
     ],
+  });
+const imagePosition = (
+  defaultPosition = "right",
+  extra?: { title: string; value: string },
+): FieldDefinition =>
+  defineField({
+    name: "imagePosition",
+    title: "Image placement",
+    type: "string",
+    options: {
+      layout: "radio",
+      list: [
+        ...(extra ? [extra] : []),
+        { title: "Left", value: "left" },
+        { title: "Right", value: "right" },
+      ],
+    },
+    initialValue: defaultPosition,
+    description: "Place the image to the left or right of the text.",
   });
 const anchor = defineField({
   name: "anchor",
@@ -113,14 +150,16 @@ const heroBlock = block(
     text("artCaption", "Artwork caption"),
     text("primaryHref", "Primary button destination"),
     text("secondaryHref", "Explore button destination"),
-    image("image", "Hero background image"),
+    image("image", "Hero background image", "blackAndWhite"),
+    imagePosition(),
   ],
-  { initialValue: heroInitial },
+  { initialValue: { ...heroInitial, imagePosition: "right" } },
 );
 const servicesBlock = block("servicesBlock", "Services", [
   ...headings,
   text("note", "Image caption"),
-  image("image", "Supporting image"),
+  image("image", "Supporting image", "blackAndWhite"),
+  imagePosition(),
   itemArray("items", "Services", [
     text("title", "Service name", true),
     paragraph("description", "Description"),
@@ -152,7 +191,7 @@ const workBlock = block("workBlock", "Work / projects", [
     text("category", "Category"),
     text("label", "Project label (e.g. Studio concept)"),
     paragraph("summary", "Project description"),
-    image(),
+    image("image", "Image", "blackAndWhite"),
     defineField({
       name: "artwork",
       title: "Fallback artwork",
@@ -174,6 +213,7 @@ const aboutBlock = block("aboutBlock", "About / philosophy", [
   text("buttonHref", "Approach button destination"),
   paragraph("quote", "Studio statement"),
   image("image", "Supporting image"),
+  imagePosition("below", { title: "Below text", value: "below" }),
   itemArray("values", "Values", [
     text("title", "Title", true),
     paragraph("description", "Description"),
@@ -260,7 +300,9 @@ const richTextBlock = block("richTextBlock", "Rich text", [
 const imageBlock = block("imageBlock", "Image / banner", [
   anchor,
   text("headline", "Heading"),
+  paragraph("description", "Description"),
   image(),
+  imagePosition("fullWidth", { title: "Full width", value: "fullWidth" }),
   text("caption", "Caption"),
 ]);
 const tickerBlock = block("tickerBlock", "Text strip / partners", [

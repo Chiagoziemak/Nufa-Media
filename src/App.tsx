@@ -22,6 +22,7 @@ import "@fontsource/hanken-grotesk/latin-500.css";
 import "@fontsource/hanken-grotesk/latin-600.css";
 import { fallbackContent, getContent, safeUrl, cmsConfigured } from "./content";
 import { Artwork } from "./Artwork";
+import { DisplayImage } from "./DisplayImage";
 import type { Section, Settings, Item } from "./types";
 
 function Heading({
@@ -83,10 +84,7 @@ function ProjectModal({
         <X />
       </button>
       {project.image?.asset?.url ? (
-        <img
-          src={project.image.asset.url}
-          alt={project.image.alt || project.title || ""}
-        />
+        <DisplayImage image={project.image} fallbackAlt={project.title} />
       ) : (
         <Artwork variant={project.artwork} />
       )}
@@ -229,11 +227,22 @@ function Block({
   switch (section._type) {
     case "heroBlock":
       return (
-        <section id={section.anchor} className="hero section-wrap">
-          <img
+        <section
+          id={section.anchor}
+          className={`hero section-wrap image-${section.imagePosition === "left" ? "left" : "right"}${section.imagePosition === "left" || section.imagePosition === "right" ? " has-image-placement" : ""}`}
+        >
+          <DisplayImage
             className="hero-background"
-            src={section.image?.asset?.url || "/images/hero.svg"}
-            alt={section.image?.alt || ""}
+            image={section.image}
+            fallbackSrc="/images/hero.svg"
+            defaultColorMode="blackAndWhite"
+            style={
+              section.imagePosition === "left"
+                ? { objectPosition: "25% center" }
+                : section.imagePosition === "right"
+                  ? { objectPosition: "75% center" }
+                  : undefined
+            }
           />
           <div className="hero-overlay" />
           <div className="hero-copy">
@@ -289,8 +298,10 @@ function Block({
       return (
         <section id={section.anchor} className="services-section section-wrap">
           <Heading section={section} />
-          <div className="services-layout">
-            <div className="services-grid">
+          <div
+            className={`services-layout image-layout image-${section.imagePosition === "left" ? "left" : "right"}`}
+          >
+            <div className="services-grid image-copy">
               {section.items?.map((item, i) => (
                 <article className="service-card" key={item._key}>
                   <span className="service-number">0{i + 1}</span>
@@ -311,10 +322,12 @@ function Block({
                 </article>
               ))}
             </div>
-            <div className="services-visual">
-              <img
-                src={section.image?.asset?.url || "/images/hero.svg"}
-                alt={section.image?.alt || "Abstract architectural forms"}
+            <div className="services-visual image-media">
+              <DisplayImage
+                image={section.image}
+                fallbackSrc="/images/hero.svg"
+                fallbackAlt="Abstract architectural forms"
+                defaultColorMode="blackAndWhite"
               />
               <span>{section.note || "STRUCTURAL PRECISION"}</span>
             </div>
@@ -334,9 +347,10 @@ function Block({
               >
                 <div className="project-image">
                   {item.image?.asset?.url ? (
-                    <img
-                      src={item.image.asset.url}
-                      alt={item.image.alt || item.title || ""}
+                    <DisplayImage
+                      image={item.image}
+                      fallbackAlt={item.title}
+                      defaultColorMode="blackAndWhite"
                       loading="lazy"
                     />
                   ) : (
@@ -358,24 +372,39 @@ function Block({
           </div>
         </section>
       );
-    case "aboutBlock":
+    case "aboutBlock": {
+      const besideText =
+        Boolean(section.image?.asset?.url) &&
+        (section.imagePosition === "left" || section.imagePosition === "right");
+      const aboutImage = section.image?.asset?.url ? (
+        <DisplayImage
+          className="about-image image-media"
+          image={section.image}
+          loading="lazy"
+        />
+      ) : null;
       return (
         <section id={section.anchor} className="about-section section-wrap">
-          <div className="about-copy">
-            <p className="eyebrow">{section.eyebrow}</p>
-            <h2>
-              {section.headline}
-              <br />
-              <span>{section.highlight}</span>
-            </h2>
-            <p>{section.description}</p>
-            <a
-              className="text-link"
-              href={safeUrl(section.buttonHref) || "#process"}
-            >
-              {section.buttonLabel || "Our approach"}
-              <ArrowUpRight size={16} />
-            </a>
+          <div
+            className={`about-intro${besideText ? ` image-layout image-${section.imagePosition}` : ""}`}
+          >
+            <div className="about-copy image-copy">
+              <p className="eyebrow">{section.eyebrow}</p>
+              <h2>
+                {section.headline}
+                <br />
+                <span>{section.highlight}</span>
+              </h2>
+              <p>{section.description}</p>
+              <a
+                className="text-link"
+                href={safeUrl(section.buttonHref) || "#process"}
+              >
+                {section.buttonLabel || "Our approach"}
+                <ArrowUpRight size={16} />
+              </a>
+            </div>
+            {besideText && aboutImage}
           </div>
           {section.values && (
             <div className="about-values">
@@ -388,15 +417,10 @@ function Block({
             </div>
           )}
           {section.quote && <p className="about-quote">{section.quote}</p>}
-          {section.image?.asset?.url && (
-            <img
-              className="about-image"
-              src={section.image.asset.url}
-              alt={section.image.alt || ""}
-            />
-          )}
+          {!besideText && aboutImage}
         </section>
       );
+    }
     case "processBlock":
       return (
         <section id={section.anchor} className="process-section section-wrap">
@@ -460,22 +484,38 @@ function Block({
           </div>
         </section>
       );
-    case "imageBlock":
+    case "imageBlock": {
+      const besideText =
+        Boolean(section.image?.asset?.url) &&
+        (section.imagePosition === "left" || section.imagePosition === "right");
       return (
         <section id={section.anchor} className="image-section section-wrap">
-          {section.headline && <Heading section={section} />}
-          <figure>
-            {section.image?.asset?.url && (
-              <img
-                src={section.image.asset.url}
-                alt={section.image.alt || ""}
-                loading="lazy"
-              />
-            )}
-            {section.caption && <figcaption>{section.caption}</figcaption>}
-          </figure>
+          <div
+            className={
+              besideText
+                ? `image-layout image-${section.imagePosition}`
+                : undefined
+            }
+          >
+            <div className="image-copy">
+              {section.headline ? (
+                <Heading section={section} />
+              ) : (
+                section.description && (
+                  <p className="section-description">{section.description}</p>
+                )
+              )}
+            </div>
+            <figure className="image-media">
+              {section.image?.asset?.url && (
+                <DisplayImage image={section.image} loading="lazy" />
+              )}
+              {section.caption && <figcaption>{section.caption}</figcaption>}
+            </figure>
+          </div>
         </section>
       );
+    }
     default:
       return null;
   }

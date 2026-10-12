@@ -45,6 +45,14 @@ Add extra pages in **All pages**. A page with slug `about` is available at `/abo
 
 Starter project examples are labelled **Studio concept**. Replace their artwork, descriptions, and labels with verified client work. The demo's example client logos, results, addresses, and phone numbers were not treated as verified business facts.
 
+### Image controls
+
+Expand an uploaded image in Sanity and choose **Image appearance → Colour** or **Black and white**. This is available for hero, services, about, project, and image / banner images. A project's choice applies to its card and detail dialog.
+
+Use **Image placement → Left / Right** in the hero, services, about, or image / banner block. Services, about, and image blocks place the picture beside their text on desktop and stack on mobile. The hero places its image on the selected side and the headline on the opposite side; on mobile, the image fills the background. About also supports **Below text**, and image / banner supports **Full width**. Existing content retains its current layout until a placement is selected.
+
+Click **Publish**, then refresh the website to see the change.
+
 ### Contact behaviour
 
 The contact section follows the approved demo: a centered heading and description above WhatsApp, telephone, and email buttons. There is no contact form. Edit the button labels, prefilled WhatsApp message, and email subject in **Home → Content blocks → Contact / direct links**. Edit the contact email, WhatsApp number, telephone number, and telephone display label in **Site settings**.

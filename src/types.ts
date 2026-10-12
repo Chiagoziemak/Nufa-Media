@@ -1,7 +1,10 @@
 import type { PortableTextBlock } from "@portabletext/react";
+export type ImageColorMode = "colour" | "blackAndWhite";
+export type ImagePosition = "left" | "right" | "below" | "fullWidth";
 export interface ImageValue {
   asset?: { url?: string };
   alt?: string;
+  colorMode?: ImageColorMode;
 }
 export interface Item {
   _key: string;
@@ -25,6 +28,7 @@ export interface Section {
   headline?: string;
   highlight?: string;
   description?: string;
+  imagePosition?: ImagePosition;
   primaryHref?: string;
   secondaryHref?: string;
   buttonHref?: string;
