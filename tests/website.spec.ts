@@ -359,7 +359,7 @@ test("mobile menu closes on navigation and Escape", async ({
     .getByRole("link", { name: "Services", exact: true })
     .click();
   await expect(page.getByRole("dialog")).not.toBeVisible();
-  await expect(page).toHaveURL(/#services$/);
+  await expect(page).toHaveURL(/\/services$/);
   await page.getByRole("button", { name: "Open menu" }).click();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).not.toBeVisible();

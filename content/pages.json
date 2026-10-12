@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "about",
+    "title": "About",
+    "seoDescription": "Meet Nufa Media and discover our approach to strategy, creativity, and purposeful communication.",
+    "blocks": ["aboutBlock", "processBlock", "contactBlock"]
+  },
+  {
+    "slug": "services",
+    "title": "Services",
+    "seoDescription": "Explore Nufa Media's advertising, media strategy, art direction, and digital product services.",
+    "blocks": ["servicesBlock", "processBlock", "faqBlock", "contactBlock"]
+  },
+  {
+    "slug": "work",
+    "title": "Work",
+    "seoDescription": "Explore creative work and studio concepts from Nufa Media.",
+    "blocks": ["workBlock", "contactBlock"]
+  },
+  {
+    "slug": "contact",
+    "title": "Contact",
+    "seoDescription": "Start a conversation with Nufa Media on WhatsApp, telephone, or email.",
+    "blocks": ["contactBlock", "faqBlock"]
+  }
+]

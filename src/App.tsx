@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
   ArrowRight,
-  ArrowDown,
   Plus,
   Minus,
   Menu,
@@ -20,7 +19,14 @@ import "@fontsource/plus-jakarta-sans/latin-800.css";
 import "@fontsource/hanken-grotesk/latin-400.css";
 import "@fontsource/hanken-grotesk/latin-500.css";
 import "@fontsource/hanken-grotesk/latin-600.css";
-import { fallbackContent, getContent, safeUrl, cmsConfigured } from "./content";
+import {
+  fallbackContent,
+  fallbackForPage,
+  getContent,
+  safeUrl,
+  pageUrl,
+  cmsConfigured,
+} from "./content";
 import { Artwork } from "./Artwork";
 import { DisplayImage } from "./DisplayImage";
 import type { Section, Settings, Item } from "./types";
@@ -28,15 +34,18 @@ import type { Section, Settings, Item } from "./types";
 function Heading({
   section,
   children,
+  primary = false,
 }: {
   section: Section;
   children?: React.ReactNode;
+  primary?: boolean;
 }) {
+  const HeadingTag = primary ? "h1" : "h2";
   return (
     <div className="section-heading">
       <div>
         <p className="eyebrow">{section.eyebrow}</p>
-        <h2>
+        <HeadingTag className="block-heading">
           {section.headline}
           {section.highlight && (
             <>
@@ -44,7 +53,7 @@ function Heading({
               <span>{section.highlight}</span>
             </>
           )}
-        </h2>
+        </HeadingTag>
       </div>
       {children ??
         (section.description && (
@@ -94,7 +103,7 @@ function ProjectModal({
         </p>
         <h2 id="project-title">{project.title}</h2>
         <p>{project.summary}</p>
-        <a href="#contact" className="button dark" onClick={close}>
+        <a href="/contact" className="button dark" onClick={close}>
           Create something like this <ArrowUpRight size={18} />
         </a>
       </div>
@@ -104,10 +113,13 @@ function ProjectModal({
 function Contact({
   section,
   settings,
+  primary = false,
 }: {
   section: Section;
   settings: Settings;
+  primary?: boolean;
 }) {
+  const HeadingTag = primary ? "h1" : "h2";
   const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(settings.contactEmail || "")
     ? settings.contactEmail
     : "";
@@ -165,7 +177,7 @@ function Contact({
     >
       <div className="contact-copy">
         {section.eyebrow && <p className="eyebrow">{section.eyebrow}</p>}
-        <h2 id={headingId}>
+        <HeadingTag id={headingId} className="block-heading">
           {section.headline}
           {section.highlight && (
             <>
@@ -173,7 +185,7 @@ function Contact({
               <span>{section.highlight}</span>
             </>
           )}
-        </h2>
+        </HeadingTag>
         {section.description && (
           <p className="contact-description">{section.description}</p>
         )}
@@ -219,11 +231,14 @@ function Block({
   section,
   settings,
   onProject,
+  primary = false,
 }: {
   section: Section;
   settings: Settings;
   onProject: (item: Item) => void;
+  primary?: boolean;
 }) {
+  const HeadingTag = primary ? "h1" : "h2";
   switch (section._type) {
     case "heroBlock":
       return (
@@ -259,14 +274,14 @@ function Block({
             <div className="hero-actions">
               <a
                 className="button lime"
-                href={safeUrl(section.primaryHref) || "#contact"}
+                href={pageUrl(section.primaryHref) || "/contact"}
               >
                 {section.primaryLabel}
                 <ArrowUpRight size={17} />
               </a>
               <a
                 className="button outlined"
-                href={safeUrl(section.secondaryHref) || "#work"}
+                href={pageUrl(section.secondaryHref) || "/work"}
               >
                 {section.secondaryLabel}
                 <ArrowRight size={17} />
@@ -274,9 +289,9 @@ function Block({
             </div>
           </div>
           <span className="hero-direction">{section.artCaption}</span>
-          <a className="scroll-cue" href="#about">
-            <ArrowDown size={15} />
-            SCROLL TO EXPLORE
+          <a className="scroll-cue" href="/about">
+            <ArrowRight size={15} />
+            EXPLORE THE STUDIO
           </a>
         </section>
       );
@@ -297,7 +312,7 @@ function Block({
     case "servicesBlock":
       return (
         <section id={section.anchor} className="services-section section-wrap">
-          <Heading section={section} />
+          <Heading section={section} primary={primary} />
           <div
             className={`services-layout image-layout image-${section.imagePosition === "left" ? "left" : "right"}`}
           >
@@ -307,7 +322,7 @@ function Block({
                   <span className="service-number">0{i + 1}</span>
                   <div>
                     <h3>
-                      <a href="#contact">
+                      <a href="/contact">
                         {item.title}
                         <ArrowUpRight size={24} />
                       </a>
@@ -337,7 +352,7 @@ function Block({
     case "workBlock":
       return (
         <section id={section.anchor} className="work-section section-wrap">
-          <Heading section={section} />
+          <Heading section={section} primary={primary} />
           <div className="work-grid">
             {section.items?.map((item) => (
               <button
@@ -390,15 +405,15 @@ function Block({
           >
             <div className="about-copy image-copy">
               <p className="eyebrow">{section.eyebrow}</p>
-              <h2>
+              <HeadingTag className="block-heading">
                 {section.headline}
                 <br />
                 <span>{section.highlight}</span>
-              </h2>
+              </HeadingTag>
               <p>{section.description}</p>
               <a
                 className="text-link"
-                href={safeUrl(section.buttonHref) || "#process"}
+                href={pageUrl(section.buttonHref) || "/about#process"}
               >
                 {section.buttonLabel || "Our approach"}
                 <ArrowUpRight size={16} />
@@ -424,7 +439,7 @@ function Block({
     case "processBlock":
       return (
         <section id={section.anchor} className="process-section section-wrap">
-          <Heading section={section} />
+          <Heading section={section} primary={primary} />
           <div className="process-grid">
             {section.steps?.map((step, i) => (
               <article key={step._key}>
@@ -442,7 +457,7 @@ function Block({
     case "faqBlock":
       return (
         <section id={section.anchor} className="faq-section section-wrap">
-          <Heading section={section} />
+          <Heading section={section} primary={primary} />
           <div className="faq-list">
             {section.items?.map((item) => (
               <details key={item._key}>
@@ -458,11 +473,13 @@ function Block({
         </section>
       );
     case "contactBlock":
-      return <Contact section={section} settings={settings} />;
+      return (
+        <Contact section={section} settings={settings} primary={primary} />
+      );
     case "richTextBlock":
       return (
         <section id={section.anchor} className="richtext-section section-wrap">
-          <Heading section={section} />
+          <Heading section={section} primary={primary} />
           <div className="prose">
             {section.body && (
               <PortableText
@@ -499,7 +516,7 @@ function Block({
           >
             <div className="image-copy">
               {section.headline ? (
-                <Heading section={section} />
+                <Heading section={section} primary={primary} />
               ) : (
                 section.description && (
                   <p className="section-description">{section.description}</p>
@@ -521,13 +538,15 @@ function Block({
   }
 }
 export default function App() {
-  const [content, setContent] = useState(fallbackContent);
+  const slug = window.location.pathname.replace(/^\/+|\/+$/g, "") || "home";
+  const [content, setContent] = useState(
+    () => fallbackForPage(slug) ?? fallbackContent,
+  );
   const [menuOpen, setMenuOpen] = useState(false);
   const [project, setProject] = useState<Item | null>(null);
   const [loading, setLoading] = useState(cmsConfigured);
   const [loadError, setLoadError] = useState(false);
   const [notFound, setNotFound] = useState(false);
-  const slug = window.location.pathname.replace(/^\/+|\/+$/g, "") || "home";
   const menuRef = useRef<HTMLDialogElement>(null);
   const menuTrigger = useRef<HTMLButtonElement>(null);
   const previousMenuOpen = useRef(false);
@@ -547,7 +566,7 @@ export default function App() {
         );
         if (alive) {
           setLoadError(true);
-          if (slug !== "home") setNotFound(true);
+          if (!fallbackForPage(slug)) setNotFound(true);
         }
       })
       .finally(() => {
@@ -572,6 +591,13 @@ export default function App() {
         ?.setAttribute("content", page.seoDescription);
   }, [content]);
   useEffect(() => {
+    if (loading || notFound) return;
+    // A direct page link can include an anchor before CMS blocks have mounted.
+    const anchor = safeUrl(window.location.hash);
+    if (anchor?.startsWith("#"))
+      document.getElementById(anchor.slice(1))?.scrollIntoView();
+  }, [loading, notFound, content]);
+  useEffect(() => {
     if (menuOpen) menuRef.current?.showModal();
     else {
       menuRef.current?.close();
@@ -580,18 +606,21 @@ export default function App() {
     previousMenuOpen.current = menuOpen;
   }, [menuOpen]);
   const { settings, page } = content;
-  const nav = (settings.navigation || []).filter((link) => safeUrl(link.href));
+  const primarySection =
+    slug !== "home" &&
+    !page.sections.some((section) => section._type === "heroBlock")
+      ? page.sections.find((section) => section.headline)
+      : undefined;
+  const nav = (settings.navigation || [])
+    .map((link) => ({ ...link, href: pageUrl(link.href) }))
+    .filter((link) => link.href);
   return (
     <>
       <a className="skip-link" href="#main">
         Skip to content
       </a>
       <header className="header">
-        <a
-          className="brand"
-          href="#main"
-          aria-label={`${settings.brandName} home`}
-        >
+        <a className="brand" href="/" aria-label={`${settings.brandName} home`}>
           <strong>{settings.brandName}</strong>
           <span className="brand-descriptor">{settings.brandDescriptor}</span>
         </a>
@@ -602,7 +631,7 @@ export default function App() {
             </a>
           ))}
         </nav>
-        <a className="nav-cta" href={safeUrl(settings.ctaHref) || "#contact"}>
+        <a className="nav-cta" href={pageUrl(settings.ctaHref) || "/contact"}>
           {settings.ctaLabel}
           <ArrowUpRight size={17} />
         </a>
@@ -643,7 +672,7 @@ export default function App() {
             </a>
           ))}
           <a
-            href={safeUrl(settings.ctaHref) || "#contact"}
+            href={pageUrl(settings.ctaHref) || "/contact"}
             onClick={() => setMenuOpen(false)}
           >
             {settings.ctaLabel}
@@ -685,6 +714,7 @@ export default function App() {
                 section={section}
                 settings={settings}
                 onProject={setProject}
+                primary={section === primarySection}
               />
             ))}
           </>
@@ -692,7 +722,7 @@ export default function App() {
       </main>
       <footer className="footer section-wrap">
         <div className="footer-top">
-          <a className="brand" href="#main">
+          <a className="brand" href="/">
             <strong>{settings.brandName}</strong>
           </a>
           <p>{settings.footerTagline}</p>
@@ -724,7 +754,7 @@ export default function App() {
       </footer>
       <a
         className="floating-contact"
-        href={safeUrl(settings.ctaHref) || "#contact"}
+        href={pageUrl(settings.ctaHref) || "/contact"}
       >
         <span className="status-dot" />
         {settings.ctaLabel}

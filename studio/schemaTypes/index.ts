@@ -67,7 +67,7 @@ const anchor = defineField({
   title: "Section link / anchor",
   type: "string",
   description:
-    "Used by navigation, e.g. services links to #services. Must be unique on the page.",
+    "Optional link to a section within a page, e.g. /about#process. Use /about or /services for page navigation. Must be unique on the page.",
   validation: (r) =>
     r.regex(/^[a-z][a-z0-9-]*$/, {
       name: "lowercase letters, numbers, and hyphens",
@@ -105,7 +105,8 @@ const linkFields = [
     name: "href",
     title: "Destination",
     type: "string",
-    description: "A section anchor (#contact) or a full https:// URL.",
+    description:
+      "A page path (/about, /services, /work, /contact), section anchor, or full https:// URL.",
     validation: (r) =>
       r.required().custom((v) => {
         if (!v) return true;

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useClient, type Tool } from "sanity";
 import defaults from "../content/defaults.json";
+import { corePages, corePage } from "../content/pages";
+import type { Page } from "../src/types";
 
 export function StarterContent() {
   const client = useClient({ apiVersion: "2026-01-01" });
@@ -10,13 +12,20 @@ export function StarterContent() {
     setBusy(true);
     setStatus("Checking existing content…");
     try {
+      const home = await client.fetch<Page | null>(
+        '*[_type == "page" && _id == "homePage"][0]',
+      );
       const transaction = client.transaction();
       // createIfNotExists preserves edits on repeat imports.
       transaction.createIfNotExists(defaults.settings);
       transaction.createIfNotExists(defaults.page);
+      for (const definition of corePages) {
+        const page = corePage(definition.slug, home ?? undefined);
+        if (page) transaction.createIfNotExists(page);
+      }
       await transaction.commit();
       setStatus(
-        "Starter content is ready. Existing documents were preserved. Open Content → Home or Site settings to edit.",
+        "Starter content is ready. Existing documents were preserved. Open Content → Home, About, Services, Work, Contact, or Site settings to edit.",
       );
     } catch (error) {
       setStatus(
@@ -41,8 +50,8 @@ export function StarterContent() {
       <h1>Welcome to Nufa Media</h1>
       <p>
         Start with the website’s editable copy and content blocks. This imports
-        the Home page and Site settings into this project. Existing documents
-        are never overwritten.
+        Home, About, Services, Work, Contact, and Site settings into this
+        project. Existing documents are never overwritten.
       </p>
       <p>
         Sign in with a Sanity account that has Editor or Administrator access to
@@ -69,8 +78,8 @@ export function StarterContent() {
       <p>
         Contact email, WhatsApp, and telephone are in{" "}
         <strong>Site settings</strong>. Add, remove, or drag blocks in{" "}
-        <strong>Home → Content blocks</strong>. Publish your edits to update the
-        website.
+        <strong>Content → your page → Content blocks</strong>. Publish your
+        edits to update the website.
       </p>
     </div>
   );

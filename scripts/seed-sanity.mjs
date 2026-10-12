@@ -19,11 +19,30 @@ const client = createClient({
 const defaults = JSON.parse(
   await readFile(new URL("../content/defaults.json", import.meta.url), "utf8"),
 );
-await client
+const definitions = JSON.parse(
+  await readFile(new URL("../content/pages.json", import.meta.url), "utf8"),
+);
+const home =
+  (await client.fetch('*[_type == "page" && _id == "homePage"][0]')) ??
+  defaults.page;
+const transaction = client
   .transaction()
   .createIfNotExists(defaults.settings)
-  .createIfNotExists(defaults.page)
-  .commit();
+  .createIfNotExists(defaults.page);
+for (const definition of definitions) {
+  transaction.createIfNotExists({
+    _id: `${definition.slug}Page`,
+    _type: "page",
+    title: definition.title,
+    slug: { _type: "slug", current: definition.slug },
+    seoTitle: `${definition.title} — Nufa Media`,
+    seoDescription: definition.seoDescription,
+    sections: definition.blocks.flatMap((type) =>
+      (home.sections ?? []).filter((section) => section._type === type),
+    ),
+  });
+}
+await transaction.commit();
 console.log(
   `Starter content imported into ${projectId}/${dataset}. Existing documents preserved.`,
 );

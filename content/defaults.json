@@ -8,31 +8,31 @@
       {
         "_key": "nav0",
         "label": "Home",
-        "href": "#home",
+        "href": "/",
         "_type": "object"
       },
       {
         "_key": "nav1",
         "label": "About",
-        "href": "#about",
+        "href": "/about",
         "_type": "object"
       },
       {
         "_key": "nav2",
         "label": "Services",
-        "href": "#services",
+        "href": "/services",
         "_type": "object"
       },
       {
         "_key": "nav3",
         "label": "Work",
-        "href": "#work",
+        "href": "/work",
         "_type": "object"
       },
       {
         "_key": "nav4",
         "label": "Contact",
-        "href": "#contact",
+        "href": "/contact",
         "_type": "object"
       }
     ],
@@ -47,7 +47,7 @@
     "officeAddress": "",
     "officeHours": "",
     "responseNote": "",
-    "ctaHref": "#contact"
+    "ctaHref": "/contact"
   },
   "page": {
     "_id": "homePage",
@@ -71,8 +71,8 @@
         "primaryLabel": "Start a conversation",
         "secondaryLabel": "Explore work",
         "artCaption": "NUFA MEDIA / DIRECTION 01",
-        "primaryHref": "#contact",
-        "secondaryHref": "#work"
+        "primaryHref": "/contact",
+        "secondaryHref": "/work"
       },
       {
         "_key": "ticker",

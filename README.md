@@ -20,9 +20,9 @@ This repository is configured for the new **Nufa Media** project, ID **`2bndbdfg
 1. In [Sanity project settings](https://www.sanity.io/manage/project/2bndbdfg), open **API → CORS origins**. Add your website origin and allow credentials because Studio is embedded in the website. For development, add `http://localhost:5173`, `http://127.0.0.1:5173`, and `http://localhost:3333`; add the exact production origin after deploying. Avoid wildcard credential origins.
 2. Open `/studio` on the website, or run `npm run studio` for the standalone Studio.
 3. Sign in with a Sanity account that has Editor or Administrator access to this project.
-4. Open **Starter content → Import starter content**. This creates the Home and Site settings documents. Repeating the import preserves existing documents and edits.
+4. Open **Starter content → Import starter content**. This creates Home, About, Services, Work, Contact, and Site settings. Repeating the import preserves existing documents and edits. New pages start with the relevant blocks from your published Home page.
 5. Edit **Content → Site settings** for contact email, WhatsApp, telephone, office details, brand name, navigation, and footer links.
-6. Edit **Content → Home → Content blocks**. Add, remove, or drag blocks into your preferred order. Publish changes to update the website. The public API CDN may take about a minute to reflect a new publication; refresh the website to load it.
+6. Open your page under **Content → Home / About / Services / Work / Contact → Content blocks**. Add, remove, or drag blocks into your preferred order. Each page can be managed independently. Publish changes to update the website. The public API CDN may take about a minute to reflect a new publication; refresh the website to load it.
 
 The dataset is initially empty. The website shows the bundled starter content until those documents are published. Network failures also retain a working starter overview and show a notice. Published pages with an intentionally empty block list remain empty.
 
@@ -41,7 +41,9 @@ The first hosted import requires your authenticated Sanity session. Creating the
 - Rich text (headings, lists, links, and quotes)
 - Image / banner
 
-Add extra pages in **All pages**. A page with slug `about` is available at `/about`; the home slug is `home`. Link to additional pages using `/about` in navigation. Section anchors must be unique within a page. When removing a section, update any navigation or button links that point to it.
+Navigation uses `/`, `/about`, `/services`, `/work`, and `/contact`. Older imported menu links such as `#about` automatically resolve to these page URLs. Until a separate core page is published, it displays the relevant blocks from your current Home page. Opening a core page in Studio initializes its blocks from published Home content; you can also import all missing pages using **Starter content**. Existing published page documents, including empty block lists, take priority.
+
+Add extra pages in **All pages**. A page with slug `team` is available at `/team`; the home slug is `home`. Link to pages using their paths in navigation. Section anchors remain available for links within a page, such as `/about#process`, and must be unique within that page. When removing a section, update any buttons pointing to it.
 
 Starter project examples are labelled **Studio concept**. Replace their artwork, descriptions, and labels with verified client work. The demo's example client logos, results, addresses, and phone numbers were not treated as verified business facts.
 

@@ -377,13 +377,13 @@ section {
   color: var(--muted);
   margin-bottom: 23px;
 }
-.about-copy h2 {
+.about-copy :is(h2, h1.block-heading) {
   font-size: clamp(38px, 5vw, 68px);
   line-height: 1.1;
   font-weight: 700;
   letter-spacing: -3.7px;
 }
-.about-copy h2 span {
+.about-copy :is(h2, h1.block-heading) span {
   color: var(--ink);
 }
 .about-copy > p:not(.eyebrow) {
@@ -433,7 +433,7 @@ section {
   margin: 0;
   text-align: left;
 }
-.about-intro.image-layout .about-copy h2 {
+.about-intro.image-layout .about-copy :is(h2, h1.block-heading) {
   font-size: clamp(32px, 4vw, 54px);
   letter-spacing: -2.5px;
 }
@@ -464,13 +464,13 @@ section {
   color: var(--muted);
   margin-bottom: 16px;
 }
-h2 {
+:is(h2, h1.block-heading) {
   font-size: clamp(30px, 3.4vw, 46px);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -2px;
 }
-h2 span {
+:is(h2, h1.block-heading) span {
   color: var(--muted);
 }
 .section-description {
@@ -719,7 +719,7 @@ h2 span {
 .faq-section .section-heading {
   align-items: flex-start;
 }
-.faq-section h2 {
+.faq-section :is(h2, h1.block-heading) {
   font-size: 36px;
 }
 .faq-list {
@@ -787,13 +787,13 @@ h2 span {
   margin-bottom: 22px;
   color: #82858c;
 }
-.contact-copy h2 {
+.contact-copy :is(h2, h1.block-heading) {
   font-size: clamp(48px, 6vw, 112px);
   letter-spacing: -0.055em;
   line-height: 1.05;
   font-weight: 800;
 }
-.contact-copy h2 span {
+.contact-copy :is(h2, h1.block-heading) span {
   color: white;
 }
 .contact-description {
@@ -1237,7 +1237,7 @@ h2 span {
     padding-top: 80px;
     padding-bottom: 80px;
   }
-  .about-copy h2 {
+  .about-copy :is(h2, h1.block-heading) {
     font-size: 39px;
     letter-spacing: -2px;
   }
@@ -1252,7 +1252,7 @@ h2 span {
   .section-heading .eyebrow {
     margin-bottom: 14px;
   }
-  h2 {
+  :is(h2, h1.block-heading) {
     font-size: 32px;
     letter-spacing: -1.5px;
   }
@@ -1272,7 +1272,7 @@ h2 span {
   .services-layout.image-layout.image-left {
     grid-template-areas: "media" "copy";
   }
-  .about-intro.image-layout .about-copy h2 {
+  .about-intro.image-layout .about-copy :is(h2, h1.block-heading) {
     font-size: 39px;
     letter-spacing: -2px;
   }
@@ -1359,7 +1359,7 @@ h2 span {
   .faq-section .section-heading {
     margin-bottom: 30px;
   }
-  .faq-section h2 {
+  .faq-section :is(h2, h1.block-heading) {
     font-size: 32px;
   }
   .faq-list summary {
@@ -1369,7 +1369,7 @@ h2 span {
     padding-top: 80px;
     padding-bottom: 90px;
   }
-  .contact-copy h2 {
+  .contact-copy :is(h2, h1.block-heading) {
     font-size: clamp(40px, 8vw, 60px);
     letter-spacing: -0.055em;
   }
@@ -1462,7 +1462,7 @@ h2 span {
   .service-card h3 {
     font-size: 26px;
   }
-  .contact-copy h2 {
+  .contact-copy :is(h2, h1.block-heading) {
     font-size: 36px;
   }
   .project-info {
