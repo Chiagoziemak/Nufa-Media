@@ -1,0 +1,300 @@
+{
+  "settings": {
+    "_id": "siteSettings",
+    "_type": "siteSettings",
+    "brandName": "NUFA MEDIA",
+    "brandDescriptor": "",
+    "navigation": [
+      {
+        "_key": "nav0",
+        "label": "Home",
+        "href": "#home",
+        "_type": "object"
+      },
+      {
+        "_key": "nav1",
+        "label": "About",
+        "href": "#about",
+        "_type": "object"
+      },
+      {
+        "_key": "nav2",
+        "label": "Services",
+        "href": "#services",
+        "_type": "object"
+      },
+      {
+        "_key": "nav3",
+        "label": "Work",
+        "href": "#work",
+        "_type": "object"
+      },
+      {
+        "_key": "nav4",
+        "label": "Contact",
+        "href": "#contact",
+        "_type": "object"
+      }
+    ],
+    "ctaLabel": "Let's talk",
+    "footerTagline": "Ideas That Move Brands. High-contrast design, editorial strategy, and architectural precision.",
+    "footerNote": "Independent thinking. Purposeful communication.",
+    "contactEmail": "",
+    "whatsappNumber": "",
+    "socialLinks": [],
+    "phoneNumber": "",
+    "phoneLabel": "",
+    "officeAddress": "",
+    "officeHours": "",
+    "responseNote": "",
+    "ctaHref": "#contact",
+    "briefReadyHeading": "Your brief is ready.",
+    "briefReadyDescription": "Choose how to share it with us below. Nothing has been sent yet.",
+    "briefUnavailableDescription": "Our contact channel is being finalised. Save your brief for now; it has not been sent."
+  },
+  "page": {
+    "_id": "homePage",
+    "_type": "page",
+    "title": "Home",
+    "slug": {
+      "_type": "slug",
+      "current": "home"
+    },
+    "seoTitle": "Nufa Media \u2014 Ideas That Move Brands",
+    "seoDescription": "Nufa Media brings together advertising, media strategy, art direction, and digital experiences. Ideas that move brands.",
+    "sections": [
+      {
+        "_key": "hero",
+        "_type": "heroBlock",
+        "anchor": "home",
+        "eyebrow": "EDITORIAL CAMPAIGN & MEDIA ARCHITECTURE",
+        "headline": "Ideas That",
+        "highlight": "Move Brands.",
+        "description": "We engineer cultural relevance through high-contrast design, editorial strategy, and architectural precision.",
+        "primaryLabel": "Start a conversation",
+        "secondaryLabel": "Explore work",
+        "artCaption": "NUFA MEDIA / DIRECTION 01",
+        "primaryHref": "#contact",
+        "secondaryHref": "#work"
+      },
+      {
+        "_key": "ticker",
+        "_type": "tickerBlock",
+        "anchor": "disciplines",
+        "eyebrow": "STRATEGY MEETS EXECUTION",
+        "note": "ONE CREATIVE PARTNER. EVERY TOUCHPOINT.",
+        "labels": ["ADVERTISING", "MEDIA", "IDENTITY", "DIGITAL", "CONTENT"]
+      },
+      {
+        "_key": "about",
+        "_type": "aboutBlock",
+        "anchor": "about",
+        "eyebrow": "AGENCY PHILOSOPHY",
+        "headline": "We turn attention",
+        "highlight": "into impact.",
+        "description": "In a landscape cluttered with noise, clarity is the ultimate luxury. We strip away the unnecessary to reveal the essential, crafting campaigns and digital experiences that command space and demand focus.",
+        "quote": "Clarity is the ultimate luxury.",
+        "values": [
+          {
+            "_key": "v1",
+            "title": "Think with purpose",
+            "description": "A clear idea behind every creative decision.",
+            "_type": "object"
+          },
+          {
+            "_key": "v2",
+            "title": "Create with courage",
+            "description": "Fresh perspectives that move your brand forward.",
+            "_type": "object"
+          },
+          {
+            "_key": "v3",
+            "title": "Build together",
+            "description": "Your ambition. Our imagination. One team.",
+            "_type": "object"
+          }
+        ],
+        "buttonLabel": "Our approach",
+        "buttonHref": "#process"
+      },
+      {
+        "_key": "services",
+        "_type": "servicesBlock",
+        "anchor": "services",
+        "eyebrow": "OUR DISCIPLINES",
+        "headline": "Built to get noticed.",
+        "highlight": "",
+        "description": "Integrated thinking across advertising, media, design, and digital.",
+        "items": [
+          {
+            "_key": "s1",
+            "title": "Advertising",
+            "description": "High-impact campaigns designed to capture attention and drive action across channels.",
+            "tags": ["Campaigns", "Creative strategy"],
+            "icon": "spark",
+            "_type": "object"
+          },
+          {
+            "_key": "s2",
+            "title": "Media Strategy",
+            "description": "Thoughtful planning to get your message to the right audience at the right moment.",
+            "tags": ["Planning", "Digital marketing"],
+            "icon": "growth",
+            "_type": "object"
+          },
+          {
+            "_key": "s3",
+            "title": "Art Direction",
+            "description": "Distinctive visual identities and compelling narratives that build lasting brand recognition.",
+            "tags": ["Identity", "Production"],
+            "icon": "camera",
+            "_type": "object"
+          },
+          {
+            "_key": "s4",
+            "title": "Digital Product",
+            "description": "From platform architecture to intuitive websites, digital experiences designed to connect.",
+            "tags": ["Websites", "User experience"],
+            "icon": "web",
+            "_type": "object"
+          }
+        ],
+        "note": "STRUCTURAL PRECISION"
+      },
+      {
+        "_key": "work",
+        "_type": "workBlock",
+        "anchor": "work",
+        "eyebrow": "SELECTED DIRECTIONS",
+        "headline": "Work worth looking at twice.",
+        "highlight": "",
+        "description": "Concept directions from the original demo. Replace these with your projects in Sanity.",
+        "items": [
+          {
+            "_key": "w1",
+            "title": "The Form of Void",
+            "category": "BEAUTY / CAMPAIGN",
+            "label": "STUDIO CONCEPT",
+            "artwork": "bloom",
+            "summary": "An editorial concept exploring form, negative space, and visual impact. This is a studio concept, ready to be replaced with a real campaign.",
+            "_type": "object"
+          },
+          {
+            "_key": "w2",
+            "title": "Concrete Words",
+            "category": "URBAN / TYPOGRAPHY",
+            "label": "STUDIO CONCEPT",
+            "artwork": "orbit",
+            "summary": "An expressive typographic concept inspired by architecture and the rhythm of the city. This is a studio concept, not a client case study.",
+            "_type": "object"
+          },
+          {
+            "_key": "w3",
+            "title": "Platform Zero",
+            "category": "DIGITAL / INTERFACE",
+            "label": "STUDIO CONCEPT",
+            "artwork": "form",
+            "summary": "A restrained digital concept built around clear hierarchy and purposeful interaction. Replace this studio concept with your own project in Sanity.",
+            "_type": "object"
+          }
+        ]
+      },
+      {
+        "_key": "process",
+        "_type": "processBlock",
+        "anchor": "process",
+        "eyebrow": "FROM FIRST HELLO TO FINAL TA-DA",
+        "headline": "Good work.",
+        "highlight": "Great chemistry.",
+        "description": "A collaborative process, with you at the centre. Here's how we get there.",
+        "steps": [
+          {
+            "_key": "p1",
+            "title": "Discover",
+            "description": "We get to know your story, your audience, and where you want to go.",
+            "_type": "object"
+          },
+          {
+            "_key": "p2",
+            "title": "Define",
+            "description": "We turn what we've learned into a clear strategy and creative direction.",
+            "_type": "object"
+          },
+          {
+            "_key": "p3",
+            "title": "Create",
+            "description": "Ideas take shape. We design, build, and refine together.",
+            "_type": "object"
+          },
+          {
+            "_key": "p4",
+            "title": "Launch",
+            "description": "We bring it to life and set you up for the next chapter.",
+            "_type": "object"
+          }
+        ]
+      },
+      {
+        "_key": "faq",
+        "_type": "faqBlock",
+        "anchor": "questions",
+        "eyebrow": "A FEW THINGS YOU MIGHT BE WONDERING",
+        "headline": "Let's clear things up.",
+        "items": [
+          {
+            "_key": "f1",
+            "question": "What can we create together?",
+            "answer": "We can help with brand strategy, visual identity, websites, digital experiences, content, and marketing campaigns. Tell us what you have in mind and we'll shape the right approach together.",
+            "_type": "object"
+          },
+          {
+            "_key": "f2",
+            "question": "Do I need a fully formed brief?",
+            "answer": "Not at all. An idea, a challenge, or a goal is a good place to start. We'll ask the right questions and help you turn it into a clear brief.",
+            "_type": "object"
+          },
+          {
+            "_key": "f3",
+            "question": "How long does a project take?",
+            "answer": "Every project is different. Once we understand the scope, we'll agree on a realistic timeline and keep you informed at each stage.",
+            "_type": "object"
+          },
+          {
+            "_key": "f4",
+            "question": "Can we work together remotely?",
+            "answer": "Absolutely. Good collaboration isn't tied to a location. We can work together through calls, shared feedback, and regular updates.",
+            "_type": "object"
+          }
+        ]
+      },
+      {
+        "_key": "contact",
+        "_type": "contactBlock",
+        "anchor": "contact",
+        "eyebrow": "START A PROJECT",
+        "headline": "Got an idea?",
+        "highlight": "Let's make people notice.",
+        "description": "Start with a conversation. Tell us about your next campaign, brand, or digital experience.",
+        "buttonLabel": "Prepare project brief",
+        "services": [
+          "Advertising",
+          "Media Strategy",
+          "Art Direction",
+          "Digital Product",
+          "An integrated project"
+        ],
+        "formNote": "Prepare a brief, then share it by email or WhatsApp once our contact details are published.",
+        "formLabels": {
+          "nameLabel": "Your name",
+          "namePlaceholder": "What should we call you?",
+          "emailLabel": "Email address",
+          "emailPlaceholder": "you@yourcompany.com",
+          "serviceLabel": "What can we help with?",
+          "servicePlaceholder": "Select a service",
+          "messageLabel": "A little about your project",
+          "messagePlaceholder": "The idea, the ambition, the big question\u2026"
+        }
+      }
+    ]
+  }
+}
